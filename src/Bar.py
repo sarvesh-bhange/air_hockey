@@ -8,17 +8,18 @@ class Bar (object):
         self.width = width
         self.height = height
         self.colour = colour
+        self.score=0
+
 
     def draw(self, surface):
-        print(self.y)
         bar_rect = pygame.Rect(self.x, self.y, self.width, self.height)
         pygame.draw.rect(surface, self.colour,bar_rect)
         
-    def move(self,keys,up_key,down_key,wall,wall2):
-        if(keys[up_key] and self.y-vel  > BORDER_HEIGHT):
+    def move(self,keys,up_key,down_key,wall1,wall2):
+        if(keys[up_key] and self.y-vel  >= wall1.y+wall1.height):
             self.y-=vel
 
-        if(keys[down_key]and self.y+vel+BAR_HEIGHT<wall.y):
+        if(keys[down_key]and self.y+vel+BAR_HEIGHT<=wall2.y):
             self.y+=vel
 
                               
