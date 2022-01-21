@@ -1,8 +1,8 @@
-from email.header import Header
 import pygame
 from constant import *
 from Bar import  Bar
 from Wall import Wall
+from ball import ball
 pygame.font.init()
 
 win=pygame.display.set_mode((WIDTH,HEIGHT))
@@ -15,6 +15,8 @@ red_bar=Bar(WIDTH-BAR_WIDTH,HEIGHT/2-BAR_HEIGHT/2,BAR_WIDTH,BAR_HEIGHT,RED)
 
 wall1= Wall(0,HEADER_HEIGHT,BORDER_WIDTH,BORDER_HEIGHT,BLACK)
 wall2= Wall(0,HEIGHT - BORDER_HEIGHT,BORDER_WIDTH,BORDER_HEIGHT,BLACK)
+
+ball=ball(100,PLAY_AREA_HEIGHT/2,BALL_RADIUS)
 
 def draw_font(surface,white_score,red_score):
     score_font = pygame.font.SysFont('comicsans',40)
@@ -47,6 +49,7 @@ def draw_window():
     wall1.draw(win)
     wall2.draw(win)
     draw_font(win,white_bar.score,red_bar.score)
+    ball.draw(win)
     pygame.display.update()
 
 # Main Loop
@@ -63,6 +66,8 @@ while run:
     
     red_bar.move(keys,pygame.K_UP, pygame.K_DOWN,wall1,wall2)
     white_bar.move(keys,pygame.K_w,pygame.K_s,wall1,wall2)
-    
+
+    ball.move(wall1,wall2,white_bar,red_bar)
+
     draw_window()
     pygame.quit
