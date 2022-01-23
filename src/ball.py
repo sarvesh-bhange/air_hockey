@@ -1,5 +1,7 @@
 import pygame
+import random
 from constant import *
+from Bar import Bar
 
 class ball(object):
     def __init__(self,x,y,radius):
@@ -14,7 +16,7 @@ class ball(object):
 
         pygame.draw.circle(surface,(DARK_BLUE),(self.x,self.y),self.radius)
 
-    def move(self,wall1,wall2,white_bar,red_bar):
+    def move(self,wall1,wall2,white_bar,red_bar,screen_width):
 
         ball_top=self.y - self.radius
         ball_bottom=self.y + self.radius
@@ -28,16 +30,37 @@ class ball(object):
         if ball_bottom >= wall2.y:
             self.vertical_vel= -self.vertical_vel
 
+        future_ball_right = ball_right + self.horizontal_vel
+        future_ball_y = self.y + self.vertical_vel
+
 
         # Horizontal bar collision
-        if ball_right >= red_bar.x and self.y >= red_bar.y and self.y <= red_bar.y+red_bar.height:
+        if future_ball_right >= red_bar.x and future_ball_y > red_bar.y and future_ball_y < red_bar.y+red_bar.height:
+            self.horizontal_vel= -self.horizontal_vel
+        
+        elif ball_right + self.horizontal_vel > screen_width:
+            white_bar.score +=1
+            
+            self.reset()
+
+        if ball_left +self.horizontal_vel <= white_bar.x+white_bar.width and self.y >= white_bar.y and self.y <= white_bar.y+white_bar.height:
             self.horizontal_vel= -self.horizontal_vel
 
-            
-        
-        if ball_left <= white_bar.x+white_bar.width and self.y >= white_bar.y and self.y <= white_bar.y+white_bar.height:
-            self.horizontal_vel= -self.horizontal_vel
+        elif ball_left + self.horizontal_vel <0:
+            red_bar.score +=1
+
+            self.reset()
 
         self.x+=self.horizontal_vel
         self.y+= self.vertical_vel
+    
+    def reset(self):
+        self.x= WIDTH/2
+
+        self.y= HEIGHT/2
+
+        self.vertical_vel = random.choice([+1,-1])* BALL_VERTICAL_SPEED
+
+        self.horizontal_vel = random.choice([+1,-1]) * BALL_HORIZONTAL_SPEED
+    
 

@@ -9,6 +9,7 @@ class Bar (object):
         self.height = height
         self.colour = colour
         self.score=0
+        self.vertical_vel= +vel
 
 
     def draw(self, surface):
