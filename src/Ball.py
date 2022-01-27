@@ -3,13 +3,13 @@ import random
 from constant import *
 from Bar import Bar
 
-class ball(object):
+class Ball(object):
     def __init__(self,x,y,radius):
         self.x=x
         self.y=y
         self.radius=radius
-        self.horizontal_vel=+BALL_HORIZONTAL_SPEED
-        self.vertical_vel=+BALL_VERTICAL_SPEED
+        self.horizontal_vel=random.choice([+1,-1])*BALL_HORIZONTAL_SPEED
+        self.vertical_vel=random.choice([+1,-1])*BALL_VERTICAL_SPEED
 
 
     def draw(self,surface):
