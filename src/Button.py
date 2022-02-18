@@ -3,16 +3,17 @@ pygame.font.init()
 from constant import *
 
 class Button(object):
-    def __init__(self,x,y,width,height,colour,text=""):
+    def __init__(self,x,y,size,width,height,colour,text=""):
 
         self.x=x
         self.y=y
-        self.width=width
-        self.height=height
         self.colour=colour
         self.text=text
+        self.width=width
+        self.height=height
+        self.size= size
 
-    def draw(self,surface,outline=None):
+    def draw(self,surface,):
 
         if self.text != "":            
 
@@ -21,7 +22,7 @@ class Button(object):
             pygame.draw.rect(surface,(RED),button_rect)
 
 
-            button_text_font=pygame.font.SysFont('comicsans',80)
+            button_text_font=pygame.font.SysFont('comicsans',self.size)
             
             text_render= button_text_font.render(self.text,1,(self.colour))
 
