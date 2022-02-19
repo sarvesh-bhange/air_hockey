@@ -10,10 +10,10 @@ class StartWindow(object):
 
         self.quit_button = Button(WIDTH/2 - 140/2, HEIGHT/2+40,60,100,50, BLACK, "Quit")
 
-    def render(self, win,events,navigate):
+    def render(self, win,events,navigate,props):
 
         for event in events:
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     if self.start_button.isover():
 
                         # pygame.event.post(pygame.event.Event(GAME_WINDOW))

@@ -56,17 +56,17 @@ class WinWindow(object):
     def back(self,events,navigate):
 
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if self.back_button.isover():
                     navigate("START_WINDOW")
 
 
     
-    def render(self,surface,events,navigate):
+    def render(self,surface,events,navigate,props):
         surface.fill((self.Windowcolour))
         self.back_button.draw(surface)
         self.draw_font(surface)
-        self.win_event(surface,2,1)
+        self.win_event(surface,props[0],props[1])
 
         self.back(events,navigate)
         

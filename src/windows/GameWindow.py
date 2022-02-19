@@ -1,4 +1,3 @@
-# import random
 from Timer import Timer
 import pygame
 from Ball import Ball
@@ -54,6 +53,11 @@ class GameWindow(object):
         surface.blit(white_score_render,(10,40))
 
         surface.blit(white_man_render,(10,10))
+    
+    def reset(self):
+        self.timer.reset()
+        self.white_bar.score=0
+        self.red_bar.score=0
 
     def draw_window(self, win,events):
         win.fill(BLUE,(0,0,WIDTH,HEIGHT))
@@ -76,23 +80,23 @@ class GameWindow(object):
 
         self.ball.move(self.wall1,self.wall2,self.white_bar,self.red_bar,WIDTH)
 
-    def render(self, surface,events,navigate):
+    def render(self, surface,events,navigate,props):
 
         for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 
-                if self.back_button.isover:
+                if self.back_button.isover():
                     
                     navigate("START_WINDOW")
                     
-                    self.timer.reset()
+                    self.reset()
 
                 if self.reset_button.isover():
-                    self.timer.reset()
+                    self.reset()
                 
         if self.timer.time == 0:
-            navigate("WIN_WINDOW")
-            self.timer.reset()
+            navigate("WIN_WINDOW",(self.white_bar.score,self.red_bar.score))
+            self.reset()
 
         self.move_objects()
         self.draw_window(surface,events)
