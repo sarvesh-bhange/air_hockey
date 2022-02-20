@@ -1,5 +1,7 @@
 from Timer import Timer
 import pygame
+import os
+pygame.mixer.init()
 from Ball import Ball
 from Bar import Bar
 from Wall import Wall
@@ -9,6 +11,11 @@ from events import START_WINDOW
 
 class GameWindow(object):
     def __init__(self):
+
+
+        pygame.mixer.music.load(os.path.join(os. getcwd(),'src/Sounds/background_2.mp3'))
+        pygame.mixer.music.set_volume(0.1) 
+
         self.white_bar=Bar(0,HEIGHT/2-BAR_HEIGHT/2,BAR_WIDTH,BAR_HEIGHT,WHITE)
 
         self.red_bar=Bar(WIDTH-BAR_WIDTH,HEIGHT/2-BAR_HEIGHT/2,BAR_WIDTH,BAR_HEIGHT,RED)
@@ -81,20 +88,19 @@ class GameWindow(object):
         self.ball.move(self.wall1,self.wall2,self.white_bar,self.red_bar,WIDTH)
 
     def render(self, surface,events,navigate,props):
+        if not pygame.mixer.music.get_busy():
+            pygame.mixer.music.play(-1)
 
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                
-                if self.back_button.isover():
-                    
-                    navigate("START_WINDOW")
-                    
-                    self.reset()
-
-                if self.reset_button.isover():
-                    self.reset()
+        if self.back_button.isclick(events):
+            navigate('START_WINDOW')
+            self.reset()
+            pygame.mixer.music.fadeout(1000)
+        
+        if self.reset_button.isclick(events):
+            self.reset()
                 
         if self.timer.time == 0:
+            pygame.mixer.music.fadeout(1000)
             navigate("WIN_WINDOW",(self.white_bar.score,self.red_bar.score))
             self.reset()
 

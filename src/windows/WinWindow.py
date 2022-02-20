@@ -1,6 +1,8 @@
 from Button import Button
 from constant import *
+import os
 import pygame
+pygame.mixer.init()
 from events import START_WINDOW
 
 class WinWindow(object):
@@ -54,13 +56,8 @@ class WinWindow(object):
     
     
     def back(self,events,navigate):
-
-        for event in events:
-            if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                if self.back_button.isover():
-                    navigate("START_WINDOW")
-
-
+        if self.back_button.isclick(events):
+            navigate('START_WINDOW')
     
     def render(self,surface,events,navigate,props):
         surface.fill((self.Windowcolour))

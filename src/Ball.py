@@ -1,10 +1,13 @@
 import pygame
+pygame.mixer.init()
+import os 
 import random
 from constant import *
 from Bar import Bar
 
 class Ball(object):
     def __init__(self,x,y,radius):
+        self.ball_hit= pygame.mixer.Sound(os.path.join(os. getcwd(),'src/Sounds/ball_hit.wav'))
         self.x=x
         self.y=y
         self.radius=radius
@@ -26,9 +29,11 @@ class Ball(object):
         # Vertical wall collision
         if ball_top <= wall1.y+ wall1.height:
             self.vertical_vel= -self.vertical_vel
+            self.ball_hit.play()
 
         if ball_bottom >= wall2.y:
             self.vertical_vel= -self.vertical_vel
+            self.ball_hit.play()
 
         future_ball_right = ball_right + self.horizontal_vel
         future_ball_y = self.y + self.vertical_vel
@@ -37,6 +42,7 @@ class Ball(object):
         # Horizontal bar collision
         if future_ball_right >= red_bar.x and future_ball_y > red_bar.y and future_ball_y < red_bar.y+red_bar.height:
             self.horizontal_vel= -self.horizontal_vel
+            self.ball_hit.play()
         
         elif ball_right + self.horizontal_vel > screen_width:
             white_bar.score +=1
@@ -45,6 +51,8 @@ class Ball(object):
 
         if ball_left +self.horizontal_vel <= white_bar.x+white_bar.width and self.y >= white_bar.y and self.y <= white_bar.y+white_bar.height:
             self.horizontal_vel= -self.horizontal_vel
+            self.ball_hit.play()
+    
 
         elif ball_left + self.horizontal_vel <0:
             red_bar.score +=1
